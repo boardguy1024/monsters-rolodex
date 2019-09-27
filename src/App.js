@@ -6,9 +6,17 @@ import { SearchBox } from "./components/search-box/search-box.component";
 import { CardList } from "./components/card-list/card-list.component";
 
 class App extends Component {
-  state = {
-    monsters: [],
-    searchedStr: ""
+  constructor() {
+    super();
+
+    this.state = {
+      monsters: [],
+      searchedStr: ""
+    };
+  }
+
+  handleChange = e => {
+    this.setState({ searchedStr: e.target.value });
   };
 
   componentDidMount() {
@@ -24,11 +32,10 @@ class App extends Component {
     });
     return (
       <div className="App">
+        <h1> Monster Rolodex </h1>
         <SearchBox
           placeholder="search monster"
-          onChangedHandler={e => {
-            this.setState({ searchedStr: e.target.value });
-          }}
+          onChangedHandler={this.handleChange}
         />
         <CardList monsters={filteredMonsters} />
       </div>
