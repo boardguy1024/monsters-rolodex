@@ -6,7 +6,8 @@ import { CardList } from "./components/card-list/card-list.component";
 
 class App extends Component {
   state = {
-    monsters: []
+    monsters: [],
+    searchedStr: ""
   };
 
   componentDidMount() {
@@ -15,13 +16,18 @@ class App extends Component {
       .then(users => this.setState({ monsters: users }));
   }
 
-  showClick = () => {
-    this.setState({ isShow: true });
-  };
   render() {
+    const { monsters, searchedStr } = this.state;
+    const filteredMonsters = monsters.filter(monster => {
+      return monster.name.toLowerCase().includes(searchedStr.toLowerCase());
+    });
     return (
       <div className="App">
-        <CardList monsters={this.state.monsters} />
+        <input
+          placeholder="search monsters"
+          onChange={e => this.setState({ searchedStr: e.target.value })}
+        ></input>
+        <CardList monsters={filteredMonsters} />
       </div>
     );
   }
